@@ -42,7 +42,7 @@ top_c = [100, 70];                               // tam 2 nut tron (tam nut tren
 fl_t = 0.9;                                      // be day gờ giu nut tron
 rec_d = 3.7;  rec_t = 0.5;                       // o chot: chot 3.5 cam vao on, khong can keo
 rect_d = 4.2;  rect_t = 1.1;                      // o chot rieng cho nut tron (rong 4.2, sau 1.0)
-cone_h = 1.1;  cone_g = 0.1;  boss_d = 6.2;  boss_h = 4.3;  hole3 = 3.6;  skirt_h = 0;  skirt_w = 0.8;  collar_h = 0;   /* vanh nap: de 0 = tat. Vanh nap CHAN nut (non loe 24.8 khong chui qua lo vanh 23.2) */  collar_od = 26.0;  // bau phang, lung cham dung dau chot cong tac (z=9.6), khong con lo        // loe vat con cao 1.0 (45 do) nam trong be day mat tren, khe 0.1
+cone_h = 1.1;  cone_g = 0.1;  boss_d = 6.2;  boss_h = 4.1;  hole3 = 3.6;  skirt_h = 0;  skirt_w = 0.8;  collar_h = 0;   /* vanh nap: de 0 = tat. Vanh nap CHAN nut (non loe 24.8 khong chui qua lo vanh 23.2) */  collar_od = 26.0;  // bau phang, lung cham dung dau chot cong tac (z=9.6), khong con lo        // loe vat con cao 1.0 (45 do) nam trong be day mat tren, khe 0.1
 edge_ch = 0.5;                                   // vat mep nut (chong elephant foot, tay bam em)
 // ---------- nut hong (+y) ----------
 side_xc = [74.0, 88.0];                          // doi xuong phia dau USB, cach nhau 14 (gờ cach 3.2)
@@ -151,14 +151,14 @@ module place_cap(xc) mirror([0, 1, 0]) translate([xc, y_out, side_zc]) rotate([9
 // ---------- khung cong tac (in lien voi than) ----------
 // nut tren: tui 6.5x6.5 mo phia tren (luon cong tac tu tren xuong), thanh day 1.3,
 // khe luon day phia -y sat san
-top_hold_z = 8.2;                                // khung cong tac tren cao 8.2: bau nut chui vao lam dan huong
+top_hold_z = 6.2;                                // khung cong tac tren cao 8.2: bau nut chui vao lam dan huong
 module top_hold(x) translate([x - cr_w/2, -cr_w/2, floor_t - 0.2]) cube([cr_w, cr_w, top_hold_z - floor_t + 0.2]);
 module top_hold_cut(x) {
   translate([x - pocket/2, -pocket/2, sw_z0]) cube([pocket, pocket, 8]);
   // 2 ranh THANG o 1 canh (leg_side: +1 = canh trai khi nhin vo dung doc, dau USB o duoi = phia +y)
   // cho chan dep SMD nho ngang ra tho ra han day; mo tu long tui ra mat ngoai va mo len tren
   for (sx = [-1, 1]) translate([x + sx * leg_y - leg_slot/2, leg_side > 0 ? pocket/2 - 0.3 : -(cr_w/2 + 0.2), sw_z0])
-    cube([leg_slot, cr_w/2 - pocket/2 + 0.5, top_hold_z - sw_z0 + 0.5]);   // ranh mo thang len mat tren khung (day da han van lap duoc)
+    cube([leg_slot, cr_w/2 - pocket/2 + 0.5, 4.8]);
 }
 // nut hong: khoi dac tu san len z=8.5, tui mo phia tren va phia truoc (cho chot),
 // thanh sau day 1.2 chiu luc bam, khe luon day phia sau
