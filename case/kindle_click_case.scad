@@ -1,5 +1,5 @@
 // Kindle Click clone - vo in 3D 120 x 40 x 12 mm, than dang vien thuoc
-// ESP32-C3 SuperMini + TP4057 USB-C + LiPo 602040, 2 nua vo ghep bang 6 vit M3x10 dau chim (bat tu day len)
+// ESP32-C3 SuperMini + TP4056 USB-C + LiPo 602040, 2 nua vo ghep bang khop cai (khong vit)
 // Cong tac: tact 6x6x8 (than 3.6 + chot 4.4) cam vao tui khoet san trong khung + dan keo;
 // 4 nut in dan keo len chot cong tac.
 // part: base | lid | cap_top1 | cap_top2 | cap_side | plate | assembly | section | sectionx
@@ -35,13 +35,14 @@ sw_z0 = 1.6;                                     // day than cong tac tren (chim
 tip_top = sw_z0 + tb[2] + stem_h;                // = 9.6
 
 // ---------- nut tron tren mat ----------
-disc_d = 22.6;  hole_d = 23.4;  flange_d = 24.8;   // khe 0.6 moi ben -> nut truot em, khong ket
+disc_d = 22.6;  hole_d = 23.2;  flange_d = 24.8;   // khe 0.6 moi ben -> nut truot em, khong ket
 rec = 0;                                         // nut phang mat tren
 dth = H - (H - plate);                           // be day than nut = be day mat tren (2.0)
 top_c = [100, 70];                               // tam 2 nut tron (tam nut tren trung tam dau bo tron)
 fl_t = 0.9;                                      // be day gờ giu nut tron
 rec_d = 3.7;  rec_t = 0.5;                       // o chot: chot 3.5 cam vao on, khong can keo
 rect_d = 4.2;  rect_t = 1.1;                      // o chot rieng cho nut tron (rong 4.2, sau 1.0)
+cone_h = 1.1;  cone_g = 0.1;  boss_d = 7.0;  boss_h = 2.9;  hole3 = 3.6;  skirt_h = 0.9;  skirt_w = 0.8;  collar_h = 1.4;  collar_od = 26.0;  // bau phang, lung cham dung dau chot cong tac (z=9.6), khong con lo        // loe vat con cao 1.0 (45 do) nam trong be day mat tren, khe 0.1
 edge_ch = 0.5;                                   // vat mep nut (chong elephant foot, tay bam em)
 // ---------- nut hong (+y) ----------
 side_xc = [74.0, 88.0];                          // doi xuong phia dau USB, cach nhau 14 (gờ cach 3.2)
@@ -82,7 +83,7 @@ module usbc(x0, x1, zc)
   translate([x0, 0, zc]) rotate([0, 90, 0]) linear_extrude(x1 - x0)
     hull() { translate([0, -3.2]) circle(1.9); translate([0, 3.2]) circle(1.9); }
 
-// ---------- vit M3 + ren vit ----------
+// ---------- vit M3 + ren vit (thay khop cai) ----------
 // Vit M3x10 dau chim, bat TU DAY len. Tru base (z 2 -> 4.4) co lo xuyen 3.4 + loe chim;
 // tru nap (z 4.6 -> 10) co lo mo 2.6 de vit tu taro (hoac use_insert = true: lo 4.2 cho oc dong M3).
 use_insert = false;
@@ -128,10 +129,12 @@ module sm_usb_opening() translate([sm_x + sm_dx/2, 0, sm_usb_z]) {
 module plunger(dx) difference() {
   union() {
     cylinder(d1 = disc_d - 2*edge_ch, d2 = disc_d, h = edge_ch);       // vat mep mat ngoai
-    translate([0, 0, edge_ch - 0.01]) cylinder(d = disc_d, h = dth - edge_ch + 0.01);
-    translate([0, 0, dth]) cylinder(d = flange_d, h = fl_t);
+    translate([0, 0, edge_ch - 0.01]) cylinder(d = disc_d, h = dth - cone_h - edge_ch + 0.02);
+    translate([0, 0, dth - cone_h]) cylinder(d1 = disc_d, d2 = disc_d + 2*cone_h, h = cone_h);   // loe hinh con nam TRONG be day mat tren
+    translate([0, 0, dth - 0.01]) difference() { cylinder(d = disc_d, h = skirt_h + 0.01); translate([0, 0, -0.1]) cylinder(d = disc_d - 2*skirt_w, h = skirt_h + 0.3); }   // vanh dan huong sau nut
+    translate([0, 0, dth - 0.01]) cylinder(d = boss_d, h = boss_h + 0.01);   // bau nho de cham cong tac
   }
-  translate([dx, 0, dth + fl_t - rect_t]) cylinder(d = rect_d, h = rect_t + 0.1);
+  translate([dx, 0, dth + 0.4]) cylinder(d = hole3, h = boss_h - 0.4 + 0.5);   // lo dan huong chot 3.4, day lo = 1.8 tu mat ngoai
 }
 // nut hong dang vien thuoc: than nut + gờ giu (day 1.0) + o loe cho chot
 module cap_side() difference() {
@@ -233,6 +236,18 @@ module lip_notches() {
   translate([-1, -7.5, zs - lip_h - 0.1]) cube([9, 15, lip_h + 0.2]);   // cho cam USB-C mach sac
   translate([min(side_xc) - 7, -(yw - 1.6) - 3.5, zs - lip_h - 0.1]) cube([max(side_xc) - min(side_xc) + 14, 3.5, lip_h + 0.2]);
 }
+module top_hole(c) {
+  za = dth - cone_h + (hole_d - disc_d)/2 - cone_g;       // chieu sau (tu mat ngoai) noi tru va con
+  zb = dth + 0.1;
+  translate([c, 0, H - za]) cylinder(d = hole_d, h = za + 0.1);
+  translate([c, 0, H - zb]) cylinder(d1 = hole_d + 2*(zb - za), d2 = hole_d, h = zb - za + 0.001);
+}
+module top_collar(c) difference() {
+  translate([c, 0, H - plate - collar_h]) cylinder(d = collar_od, h = collar_h + 0.02);
+  translate([c, 0, H - plate - collar_h - 0.1]) cylinder(d = hole_d, h = collar_h + 0.3);
+  for (p = scr_pts) translate([p[0], p[1], H - plate - collar_h - 0.1]) cylinder(d = p[2] + 0.8, h = collar_h + 0.5);
+  translate([0, -20, H - plate - collar_h - 0.1]) cube([batt_x + batt[0] + 0.6, 40, collar_h + 0.5]);   // tranh cuc pin
+}
 module usb_clamp() translate([sm_x + sm_dx/2 - 5.8, 11.2, 7.7]) cube([11.6, 17.1 - 11.2, H - plate - 7.7 + 0.1]);   // ép nhẹ tu tren xuong len cong Type-C
 module lid() {
   difference() {
@@ -240,7 +255,7 @@ module lid() {
       difference() {
         intersection() { outer(); translate([-1, -W, zs]) cube([L + 2, 2*W, H]); }
         cav(lid_wall - wall, zs - 3, H - plate);
-        for (c = top_c) translate([c, 0, H - plate - 0.1]) cylinder(d = hole_d, h = plate + 0.2);
+        for (c = top_c) top_hole(c);
       }
       difference() {
         translate([0, 0, zs - lip_h]) linear_extrude(lip_h + 0.5) difference() { cav2d(gap); cav2d(gap + lip_t); }
@@ -248,6 +263,7 @@ module lid() {
       }
       translate([0, 0, zs]) linear_extrude(0.5) difference() { cav2d(-0.2); cav2d(gap + lip_t); }
       screw_posts_lid();
+      for (c = top_c) top_collar(c);
       usb_clamp();
     }
     screw_holes_lid();
