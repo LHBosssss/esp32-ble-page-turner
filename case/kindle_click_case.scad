@@ -158,7 +158,7 @@ module top_hold_cut(x) {
   // 2 ranh THANG o 1 canh (leg_side: +1 = canh trai khi nhin vo dung doc, dau USB o duoi = phia +y)
   // cho chan dep SMD nho ngang ra tho ra han day; mo tu long tui ra mat ngoai va mo len tren
   for (sx = [-1, 1]) translate([x + sx * leg_y - leg_slot/2, leg_side > 0 ? pocket/2 - 0.3 : -(cr_w/2 + 0.2), sw_z0])
-    cube([leg_slot, cr_w/2 - pocket/2 + 0.5, 4.8]);
+    cube([leg_slot, cr_w/2 - pocket/2 + 0.5, top_hold_z - sw_z0 + 0.5]);   // ranh mo thang len mat tren khung (day da han van lap duoc)
 }
 // nut hong: khoi dac tu san len z=8.5, tui mo phia tren va phia truoc (cho chot),
 // thanh sau day 1.2 chiu luc bam, khe luon day phia sau
