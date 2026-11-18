@@ -1,3 +1,4 @@
+import utils.session
 import os
 import matplotlib
 matplotlib.use("Agg")
