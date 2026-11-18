@@ -125,7 +125,7 @@ openscad -D 'part="base"' -o base.stl case/kindle_click_case.scad     # lid / ca
 
 ### 2. Nạp
 ```
-git clone git@github.com:<user>/esp32-ble-page-turner.git && cd esp32-ble-page-turner
+git clone https://github.com/LHBosssss/esp32-ble-page-turner.git && cd esp32-ble-page-turner
 pio run -e esp32c3 -t upload
 ```
 - Chọn đúng env: `esp32c3` là bản thật (có deep sleep). Bản thử trên bàn khi chưa hàn nút: `pio run -e bench -t upload` (không ngủ, luôn ghép đôi); `bench_auto` tự gửi PageDown/PageUp/Bright+/Bright- mỗi 5 s.
