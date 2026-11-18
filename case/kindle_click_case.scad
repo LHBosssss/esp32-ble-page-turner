@@ -42,7 +42,7 @@ top_c = [100, 70];                               // tam 2 nut tron (tam nut tren
 fl_t = 0.9;                                      // be day gờ giu nut tron
 rec_d = 3.7;  rec_t = 0.5;                       // o chot: chot 3.5 cam vao on, khong can keo
 rect_d = 4.2;  rect_t = 1.1;                      // o chot rieng cho nut tron (rong 4.2, sau 1.0)
-cone_h = 1.1;  cone_g = 0.1;  boss_d = 7.0;  boss_h = 2.9;  hole3 = 3.6;  skirt_h = 0.9;  skirt_w = 0.8;  collar_h = 1.4;  collar_od = 26.0;  // bau phang, lung cham dung dau chot cong tac (z=9.6), khong con lo        // loe vat con cao 1.0 (45 do) nam trong be day mat tren, khe 0.1
+cone_h = 1.1;  cone_g = 0.1;  boss_d = 7.0;  boss_h = 2.9;  hole3 = 3.6;  skirt_h = 0.9;  skirt_w = 0.8;  collar_h = 0;   /* vanh nap: de 0 = tat. Vanh nap CHAN nut (non loe 24.8 khong chui qua lo vanh 23.2) */  collar_od = 26.0;  // bau phang, lung cham dung dau chot cong tac (z=9.6), khong con lo        // loe vat con cao 1.0 (45 do) nam trong be day mat tren, khe 0.1
 edge_ch = 0.5;                                   // vat mep nut (chong elephant foot, tay bam em)
 // ---------- nut hong (+y) ----------
 side_xc = [74.0, 88.0];                          // doi xuong phia dau USB, cach nhau 14 (gờ cach 3.2)
@@ -263,7 +263,7 @@ module lid() {
       }
       translate([0, 0, zs]) linear_extrude(0.5) difference() { cav2d(-0.2); cav2d(gap + lip_t); }
       screw_posts_lid();
-      for (c = top_c) top_collar(c);
+      if (collar_h > 0) for (c = top_c) top_collar(c);
       usb_clamp();
     }
     screw_holes_lid();
