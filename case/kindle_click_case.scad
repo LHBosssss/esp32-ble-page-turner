@@ -134,7 +134,7 @@ module plunger(dx) difference() {
     if (skirt_h > 0) translate([0, 0, dth - 0.01]) difference() { cylinder(d = disc_d, h = skirt_h + 0.01); translate([0, 0, -0.1]) cylinder(d = disc_d - 2*skirt_w, h = skirt_h + 0.3); }   // vanh dan huong sau nut
     translate([0, 0, dth - 0.01]) cylinder(d = boss_d, h = boss_h + 0.01);   // bau nho de cham cong tac
   }
-  translate([dx, 0, dth + 0.4]) cylinder(d = hole3, h = boss_h - 0.4 + 0.5);   // lo dan huong chot 3.4, day lo = 1.8 tu mat ngoai
+  translate([dx, 0, dth]) cylinder(d = hole3, h = boss_h + 0.5);   // lo dan huong chot 3.4, day lo = 1.8 tu mat ngoai
 }
 // nut hong dang vien thuoc: than nut + gờ giu (day 1.0) + o loe cho chot
 module cap_side() difference() {
