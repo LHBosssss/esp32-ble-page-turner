@@ -92,6 +92,12 @@ Vỏ **120 × 40 × 12 mm** dạng viên thuốc, 2 nửa (đế + nắp) **ghé
 - Nút tròn nằm phẳng mặt trên; nút cạnh nhô ~1 mm ở cạnh +y.
 
 ### Bố trí
+![Render vỏ](docs/case_render.png)
+*Ảnh dựng từ file `.scad` (CAD render, không phải ảnh chụp thật).*
+
+![Bố trí linh kiện](docs/case_layout.png)
+*Nhìn từ trên xuống, bỏ nắp: pin 602040 (vàng), mạch sạc TP4057 (tím), ESP32-C3 SuperMini (xanh lơ), 4 công tắc tact (đỏ), 6 lỗ vít M3.*
+
 ESP32 và pin nằm cạnh nhau trên sàn, mạch sạc TP4057 ở đầu có cổng USB-C. ESP32 (SuperMini) sát vách +y, cổng USB-C của nó hướng ra ngoài. Các nút nằm về phía đầu còn lại.
 Nạp firmware qua cổng USB-C của SuperMini; nếu cổng này không lộ ra ngoài vỏ thì nạp trước khi lắp hoặc mở vỏ khi cần nạp lại.
 
